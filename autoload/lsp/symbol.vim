@@ -158,7 +158,7 @@ enddef
 def ShowSymbolMenu(lspserver: dict<any>, query: string, cmdmods: string)
   # Create the popup menu
   var lnum = &lines - &cmdheight - 2 - 10
-  var popupAttr = {
+  var popupAttrs = {
       title: 'Workspace Symbol Search ',
       wrap: false,
       pos: 'topleft',
@@ -174,7 +174,7 @@ def ShowSymbolMenu(lspserver: dict<any>, query: string, cmdmods: string)
       borderchars: ['-', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
       filter: function(FilterSymbols, [lspserver]),
       callback: function('JumpToWorkspaceSymbol', [lspserver, cmdmods])
-  })
+  }
   lspserver.workspaceSymbolPopup = popup_menu([], popupAttrs)
   lspserver.workspaceSymbolQuery = query
   prop_type_add('lspworkspacesymbol',

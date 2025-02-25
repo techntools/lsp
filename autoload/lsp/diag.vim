@@ -196,6 +196,19 @@ def DiagSevToVirtualTextHLName(severity: number): string
   return typeMap[severity - 1]
 enddef
 
+def DiagSevToPopupHLName(severity: number): string
+  var typeMap: list<string> = [
+    'LspDiagPopupError',
+    'LspDiagPopupWarning',
+    'LspDiagPopupInfo',
+    'LspDiagPopupHint'
+  ]
+  if severity > 4
+    return 'LspDiagPopupHint'
+  endif
+  return typeMap[severity - 1]
+enddef
+
 def DiagSevToSymbolText(severity: number): string
   var lspOpts = opt.lspOptions
   var typeMap: list<string> = [
@@ -618,7 +631,9 @@ def ShowDiagInPopup(diag: dict<any>)
   var popupAttrs = opt.PopupConfigure('Diag', {
     pos: 'topleft',
     line: d.row + 1,
-    moved: 'any'
+    moved: 'any',
+    padding: [0, 1, 0, 1],
+    highlight: DiagSevToPopupHLName(diag.severity)
   })
 
   if msglen > &columns

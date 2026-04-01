@@ -279,7 +279,12 @@ enddef
 # as the highlight group for "Hover" type popups if configured, otherwise hover
 # popups will fall back to the standard popupHighlight option.
 export def PopupConfigure(type: string, popupAttrs: dict<any>): dict<any>
-  popupAttrs.highlight = PopupOptionGet(type, 'popupHighlight')
+  if popupAttrs->has_key('title')
+    popupAttrs.title = ' ' .. popupAttrs.title .. ' '
+  endif
+  if !popupAttrs->has_key('highlight')
+    popupAttrs.highlight = PopupOptionGet(type, 'popupHighlight')
+  endif
   if PopupOptionGet(type, 'popupBorder')
     popupAttrs.border = []
     popupAttrs.borderchars = lspOptions.popupBorderChars
